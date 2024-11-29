@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
 
-const studentSchema = new mongoose.Schema({
-    account: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Account',
+const taskSchema = new mongoose.Schema({
+    title: {
+        type: String,
         required: true,
-        unique: true
     },
-    name: {
+    descrition: {
+        type: String,
+        required: true,
+    },
+    deadline: {
         type: String,
         required: true,
     },
@@ -21,6 +23,6 @@ const studentSchema = new mongoose.Schema({
     timestamps: true,
 }
 );
-const Student = mongoose.model('Student',studentSchema);
+const Task = mongoose.model('Task',taskSchema);
 
-export default Student;
+export default Task;
