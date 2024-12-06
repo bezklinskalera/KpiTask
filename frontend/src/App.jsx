@@ -8,6 +8,7 @@ import { OneCourseTeacher } from './pages/oneCourseTeacher'
 import { OneCourseStudent } from './pages/oneCourseStudent'
 import '../src/styles/reset.css'
 
+
 function App() {
   const [count, setCount] = useState(0)
 
