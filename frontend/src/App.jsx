@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import {RegisterPage} from './pages/registerPage'
-import {EnterPage} from './pages/enterPage'
+import EnterPage from './pages/enterPage'
 import {CoursesTeacherPage} from './pages/coursesTeacher'
 import { CourseStudent } from './pages/coursesStudent'
 import { OneCourseTeacher } from './pages/oneCourseTeacher'

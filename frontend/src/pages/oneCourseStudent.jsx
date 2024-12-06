@@ -2,7 +2,7 @@ import React from "react";
 import { Header } from "../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 
-export const OneCourseTeacher = () => {
+export const OneCourseStudent = () => {
   const navigate = useNavigate();
 
   const handleAllCourseClick = () => {
