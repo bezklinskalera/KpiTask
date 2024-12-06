@@ -49,17 +49,17 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
-        const account = await AccountModel.findOne({
-            userName: req.body.userName,
+        const account = await Account.findOne({
+            email: req.body.email,
         });
 
         if (!account) {
             return res.status(404).json({
                 message: 'No user found',
-            })
+            });
         }
 
-        const isValidPass = await bcrypt.compare(req.body.password, account._doc.passwordHash);
+        const isValidPass = await bcrypt.compare(req.body.password, account.password);
 
         if (!isValidPass) {
             return res.status(400).json({
@@ -67,8 +67,10 @@ export const login = async (req, res) => {
             });
         }
 
+        // Генерація токена
         const token = jwt.sign({
             _id: account._id,
+            role: account.role, // Додаємо роль до токена
         },
             'secret123',
             {
@@ -76,19 +78,19 @@ export const login = async (req, res) => {
             }
         );
 
-        const { passwordHash, ...accountData } = account._doc;
+        const { password: _, ...accountData } = account._doc;
 
+        // Повертаємо дані користувача та токен, включаючи роль
         res.json({
             ...accountData,
-            token
-        }
-        );
+            token,
+            role: account.role, // Додаємо роль до відповіді
+        });
 
     } catch (err) {
         console.log(err);
         res.status(500).json({
-            message: 'Failed to register',
-        })
+            message: 'Failed to login',
+        });
     }
-
 };
