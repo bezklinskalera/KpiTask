@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from 'react-redux'
+import { useLoginMutation } from '../slices/userApiSlice';
+import { setCredetials } from '../slices/authSlice';
+import { toast } from 'react-toastify';
 import {
   Container,
   TextField,
@@ -14,8 +19,28 @@ export default function EnterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [login, {isLoading}] = useLoginMutation();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate('/coursesTeacher');
+    }
+  }, [navigate, userInfo]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredetials({ ...res }));
+      navigate('/coursesTeacher');
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
     console.log('Email:', email);
     console.log('Password:', password);
   };

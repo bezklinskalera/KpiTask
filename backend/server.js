@@ -11,8 +11,9 @@ const app = express();
 
 app.use(express.json());
 
-app.post('/app/login', AccountController.login);
-app.post('/app/register', AccountController.register);
+app.post('/api/users/auth', AccountController.login);
+app.post('/api/users/register', AccountController.register);
+app.post('/api/users/logout', AccountController.logout);
 
 
 app.get("/", (req,res) => {
