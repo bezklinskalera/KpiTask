@@ -1,6 +1,16 @@
 import React from "react";
+import { Header } from "../components/Header/Header";
 
 export const CourseStudent = () => {
-  return (<>
-  <p>vfhbvkjeb</p></>);
+  return (
+    <>
+      <Header 
+      
+       />
+      <div className="main_courses_teacher">
+        <p className="welcome-text">Вітаємо, Валерія! Перегляньте доступні курси.</p>
+
+      </div>
+    </>
+  );
 };
