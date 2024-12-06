@@ -1,12 +1,23 @@
 import React from "react";
 import { Header } from "../components/Header/Header";
+import { useNavigate } from "react-router-dom";
 import { CourseBlock } from "../components/CoursePage/CourseBlock/CourseBlock";
 import "../styles/CoursesTeacher.css";
 
 export const CoursesTeacherPage = () => {
+  const navigate = useNavigate();
+
+  const handleEnter = () => {
+    navigate("/enter");
+  };
+
   return (
     <>
-      <Header />
+      <Header 
+      textButton = "Додати курс" 
+      logoutText = "Вийти"
+      secondAction={handleEnter} 
+       />
       <div className="main_courses_teacher">
         <p className="welcome-text">Вітаємо, Валерія! Перегляньте створені курси.</p>
 
