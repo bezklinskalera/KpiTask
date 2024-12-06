@@ -17,6 +17,7 @@ const accountSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true, 
+        enum: ['teacher', 'student'],
     },
 },
 {
