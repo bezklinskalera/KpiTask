@@ -1,0 +1,88 @@
+.course-page {
+    font-family: "Comforta";
+    color: #333;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #e6e6fa;
+    padding: 10px 20px;
+  }
+  
+  .header-button {
+    background-color: #8a2be2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  
+  .header-button.logout {
+    background-color: #d35400;
+  }
+  
+  .course-content {
+    padding: 20px;
+  }
+  
+  .course-title {
+    text-align: center;
+    color: #4b0082;
+  }
+  
+  .course-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .action-button {
+    background-color: #8a2be2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .course-code {
+    font-size: 16px;
+    font-weight: bold;
+    color: #4b0082;
+  }
+  
+  .tasks-list {
+    margin-top: 20px;
+  }
+  
+  .task-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .details-button {
+    background-color: #6a5acd;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+  }
+  
+  .student-list {
+    margin-top: 30px;
+  }
+  
+  .student-name {
+    margin: 5px 0;
+  }
+  
+  .scroll-button {
+    background-color: #8a2be2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  

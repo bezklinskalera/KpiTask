@@ -1,0 +1,87 @@
+/* Загальні стилі */
+body {
+    font-family: "Comforta";
+    margin: 0;
+    padding: 0;
+  }
+  
+  .task-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    gap: 40px;
+  }
+  
+  .content {
+    background: #ece0ff;
+    padding: 20px;
+  }
+
+  .course-title-container{
+    background: #6b4e9a;
+    border-radius: 10px 10px 0 0;
+    padding: 20px;
+  }
+  
+  .course-title {
+    text-align: center;
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  
+  .task-details {
+    display: flex;
+    gap: 20px;
+    background-color: #ffffff;
+    border-radius:  0 0 10px 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .task-info {
+    flex: 3;
+  }
+  
+  .task-info h2 {
+    font-size: 20px;
+    color: #5a2d8a;
+  }
+  
+  .task-info p {
+    margin: 10px 0;
+    line-height: 1.6;
+  }
+  
+  .published-date {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .task-meta {
+    flex: 1;
+    background-color: #efe3f7;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .task-meta p {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  
+  .grade-button {
+    background-color: #5a2d8a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .grade-button:hover {
+    background-color: #4b2574;
+  }
+  
