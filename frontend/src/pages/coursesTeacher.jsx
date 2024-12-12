@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "../components/Header/Header";
+import { useNavigate } from "react-router-dom";
 import { CourseBlock } from "../components/CoursePage/CourseBlock/CourseBlock";
 import "../styles/CoursesTeacher.css";
 import { useSelector } from "react-redux";
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { setSelectedCourse } from '../slices/courseSlice';
 
 export const CoursesTeacherPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const currentUser = useSelector((state) => state.auth?.userInfo);
   const [teacherData, setTeacherData] = useState(null);
   const [selectedGroups, setSelectedGroups] = useState([]);
   const [groups, setGroups] = useState([]);
+
+  const handleDetailsClick = (course) => {
+    dispatch(setSelectedCourse(course)); // Зберігаємо обраний курс в Redux
+    navigate(`/oneCourseTeacher/${course._id}`); // Перехід до сторінки курсу
+  };
 
   const handleAddCourseClick = () => {
     setIsModalOpen(true); // Відкрити модальне вікно
@@ -27,37 +37,39 @@ export const CoursesTeacherPage = () => {
     const courseName = e.target.elements.courseName.value;
     const groups = selectedGroups;
 
-    console.log("Selected groups:", groups);
+    const teacherId = currentUser._id; // Отримуємо ID поточного викладача
 
     try {
-      const response = await fetch("/api/users/addCourse", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          course_name: courseName,
-          groups,
-        }),
-      });
+        const response = await fetch("/api/users/addCourse", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                course_name: courseName,
+                groups,
+                teacherId, // Додаємо teacherId
+            }),
+        });
 
-      if (!response.ok) {
-        throw new Error(`Error adding course: ${response.statusText}`);
-      }
+        if (!response.ok) {
+            throw new Error(`Error adding course: ${response.statusText}`);
+        }
 
-      const newCourse = await response.json();
+        const newCourse = await response.json();
 
-      // Оновлення стану з новим курсом
-      setTeacherData((prevData) => ({
-        ...prevData,
-        courses: [...(prevData.courses || []), newCourse.course],
-      }));
+        // Оновлення списку курсів викладача
+        setTeacherData((prevData) => ({
+            ...prevData,
+            courses: [...(prevData.courses || []), newCourse.course],
+        }));
 
-      setIsModalOpen(false); // Закрити модальне вікно
+        setIsModalOpen(false); // Закрити модальне вікно
     } catch (error) {
-      console.error("Error adding course:", error);
+        console.error("Error adding course:", error);
     }
-  };
+};
+
 
   useEffect(() => {
     const fetchTeacherData = async () => {
