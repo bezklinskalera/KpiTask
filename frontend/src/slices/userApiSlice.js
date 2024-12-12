@@ -17,7 +17,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
               method: 'POST',
             }),
           }),
+          getTeacherById: builder.query({
+            query: (id) => `/api/teachers/${id}`, // Припускаю, що ваш бекенд має цей маршрут
+        }),
     }),
 });
 
-export const {useLoginMutation, useLogoutMutation,} = userApiSlice;
+export const {useLoginMutation, useLogoutMutation, useGetTeacherByIdQuery} = userApiSlice;

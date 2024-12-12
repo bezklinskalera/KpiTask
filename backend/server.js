@@ -24,6 +24,7 @@ app.post("/api/users/addGroup", GroupController.addGroup);
 app.post("/api/users/addCourse", CourseController.addCourse);
 
 app.post("/api/users/addTeacher", TeacherController.addTeacher);
+app.get("/api/users/getTeacher/:id", TeacherController.getTeacherById)
 
 app.get("/", (req, res) => {
   res.send("Server is ready");

@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "../components/Header/Header";
 import { CourseBlock } from "../components/CoursePage/CourseBlock/CourseBlock";
 import "../styles/CoursesTeacher.css";
+import { useSelector } from "react-redux";
 
 export const CoursesTeacherPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const currentUser = useSelector((state) => state.auth?.userInfo);
+  const [teacherData, setTeacherData] = useState(null);
 
   const handleAddCourseClick = () => {
     setIsModalOpen(true); // Відкрити модальне вікно
@@ -21,6 +24,33 @@ export const CoursesTeacherPage = () => {
     setIsModalOpen(false); // Закрити модальне вікно після створення
   };
 
+  useEffect(() => {
+    const fetchTeacherData = async () => {
+        try {
+            const accountId = currentUser?._id; // Отримуємо ID поточного користувача
+            if (!accountId) return;
+
+            const response = await fetch(`/api/users/getTeacher/${accountId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error fetching teacher data: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            setTeacherData(data); // Зберігаємо отримані дані в стані
+        } catch (error) {
+            console.error('Error fetching teacher data:', error);
+        }
+    };
+
+    fetchTeacherData();
+}, [currentUser?._id]);
+
   return (
     <>
       <Header 
@@ -28,7 +58,7 @@ export const CoursesTeacherPage = () => {
         firstAction={handleAddCourseClick} 
       />
       <div className="main_courses_teacher">
-        <p className="welcome-text">Вітаємо, Валерія! Перегляньте створені курси.</p>
+        <p className="welcome-text">Вітаємо, {teacherData?.name}! Перегляньте створені курси.</p>
 
         <div className="central_courses_teacher">
           {Array.from({ length: 6 }).map((_, index) => (

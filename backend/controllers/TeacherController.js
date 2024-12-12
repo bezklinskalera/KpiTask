@@ -1,5 +1,6 @@
 import Teacher from '../../backend/models/teacher.model.js';
 import Account from '../../backend/models/account.model.js';
+import mongoose from 'mongoose';
 
 export const addTeacher = async (req, res) => {
     try {
@@ -31,6 +32,35 @@ export const addTeacher = async (req, res) => {
         console.error(err);
         res.status(500).json({
             message: 'Failed to add teacher',
+        });
+    }
+};
+
+
+export const getTeacherById = async (req, res) => {
+    try {
+        const accountId = req.params.id; // Отримуємо ID акаунта з параметрів запиту
+
+        // Знаходимо викладача за ID акаунта
+        const teacher = await Teacher.findOne({ account: accountId })
+            .populate('account', 'userName email') // Заповнюємо акаунт, щоб отримати ім'я та email
+            .populate('courses', 'course_name group'); // Заповнюємо курси, якщо вони є
+
+        if (!teacher) {
+            return res.status(404).json({ message: 'Teacher not found' });
+        }
+
+        // Відправляємо знайдену інформацію про викладача
+        res.status(200).json({
+            teacherId: teacher._id,
+            name: teacher.name,
+            account: teacher.account, // Інформація про акаунт
+            courses: teacher.courses, // Інформація про курси викладача
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Не вдалося знайти інформацію про викладача',
         });
     }
 };
