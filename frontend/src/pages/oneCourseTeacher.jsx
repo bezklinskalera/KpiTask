@@ -21,6 +21,14 @@ export const OneCourseTeacher = () => {
     navigate("/enter");
   };
 
+  const handleTaskClick = () => {
+    navigate("/openTaskTeacher");
+  };
+
+  const handleAddTaskClick = () => {
+    navigate("/addTask");
+  };
+
   return (
     <div className="course-page">
    <Header 
@@ -34,7 +42,7 @@ export const OneCourseTeacher = () => {
         <p>{selectedCourse.course_name}</p>
         <div className="course-actions">
           <button className="action-button">Видалити курс</button>
-          <button className="action-button">Додати завдання</button>
+          <button className="action-button" onClick={handleAddTaskClick} >Додати завдання</button>
           <div className="course-code">Код курсу: HGUJB56</div>
         </div>
 
@@ -44,7 +52,7 @@ export const OneCourseTeacher = () => {
             <div className="task-item" key={index}>
               <span>Завдання: Збір вимог до проєкту</span>
               <span>Опубліковано: {date}</span>
-              <button className="details-button">Детальніше</button>
+              <button className="details-button" onClick={handleTaskClick} >Детальніше </button>
             </div>
           ))}
         </div>

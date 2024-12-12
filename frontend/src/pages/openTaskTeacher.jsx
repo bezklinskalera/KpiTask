@@ -1,14 +1,18 @@
 import React from "react";
 import { Header } from "../components/Header/Header";
 import "../styles/openTask.css";
+import { useSelector } from "react-redux";
 
 export const OpenTaskTeacher = () => {
+  const selectedCourse = useSelector((state) => state.course.selectedCourse);
+
+
   return (
     <div className="task-container">
       <Header />
       <div className="content">
         <div className="course-title-container">
-        <h1 className="course-title">ТВ-21. Асинхронне програмування</h1>
+        <h1 className="course-title">{selectedCourse.course_name}</h1>
         </div>
         
         <div className="task-details">

@@ -1,6 +1,5 @@
 import Teacher from '../../backend/models/teacher.model.js';
 import Account from '../../backend/models/account.model.js';
-import mongoose from 'mongoose';
 
 export const addTeacher = async (req, res) => {
     try {

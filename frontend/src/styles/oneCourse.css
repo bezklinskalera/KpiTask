@@ -29,6 +29,7 @@
   .course-title {
     text-align: center;
     color: #4b0082;
+    font-family: "Comforta";
   }
   
   .course-actions {
@@ -36,6 +37,7 @@
     justify-content: space-between;
     align-items: center;
     margin: 20px 0;
+    
   }
   
   .action-button {
@@ -44,6 +46,7 @@
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    
   }
   
   .course-code {
@@ -54,6 +57,7 @@
   
   .tasks-list {
     margin-top: 20px;
+    
   }
   
   .task-item {

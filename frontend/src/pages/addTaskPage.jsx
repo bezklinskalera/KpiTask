@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { Header } from "../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 import '../styles/addTask.css'
-
+import { useSelector } from "react-redux";
 
 export const AddTask = () => {
-
+  const selectedCourse = useSelector((state) => state.course.selectedCourse);
   const navigate = useNavigate();
 
   const handleAllCourseClick = () => {
     navigate("/coursesTeacher");
   };
-
+  
   const handleEnter = () => {
     navigate("/enter");
   };
@@ -24,7 +24,7 @@ export const AddTask = () => {
     e.preventDefault();
     // Обробка даних форми
     console.log("Новий завдання:", { taskTitle, taskDescription, dueDate });
-    navigate("/coursesTeacher"); // Повернення до курсів
+    navigate("`/oneCourseTeacher/${course._id}`"); // Повернення до курсів
   };
 
   return (
@@ -65,7 +65,7 @@ export const AddTask = () => {
           <div className="task-buttons">
             <button
               type="button"
-              onClick={() => navigate("/coursesTeacher")}
+              onClick={() => navigate("/oneCourseTeacher/:id")}
               className="cancel-button"
             >
               Скасувати

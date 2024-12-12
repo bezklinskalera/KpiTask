@@ -15,8 +15,17 @@ const taskSchema = new mongoose.Schema({
     },
     group: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Group', 
+        ref: 'StudentAnswer', 
         required: true 
+    },
+    submission_status: {
+        type: String,
+        required: true, 
+        enum: ['submitted', 'not submitted'],
+    },
+    assessment_status: {
+        type: String,
+        required: true, 
     }
 },
 {
