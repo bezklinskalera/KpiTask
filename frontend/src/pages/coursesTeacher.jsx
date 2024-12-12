@@ -3,11 +3,14 @@ import { Header } from "../components/Header/Header";
 import { CourseBlock } from "../components/CoursePage/CourseBlock/CourseBlock";
 import "../styles/CoursesTeacher.css";
 import { useSelector } from "react-redux";
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 export const CoursesTeacherPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const currentUser = useSelector((state) => state.auth?.userInfo);
   const [teacherData, setTeacherData] = useState(null);
+  const [selectedGroups, setSelectedGroups] = useState([]);
+  const [groups, setGroups] = useState([]);
 
   const handleAddCourseClick = () => {
     setIsModalOpen(true); // Відкрити модальне вікно
@@ -17,53 +20,107 @@ export const CoursesTeacherPage = () => {
     setIsModalOpen(false); // Закрити модальне вікно
   };
 
-  const handleSubmitCourse = (e) => {
+  const handleSubmitCourse = async (e) => {
     e.preventDefault();
-    // Обробка даних форми
-    console.log("Курс створено");
-    setIsModalOpen(false); // Закрити модальне вікно після створення
+
+    // Отримання даних форми
+    const courseName = e.target.elements.courseName.value;
+    const groups = selectedGroups;
+
+    console.log("Selected groups:", groups);
+
+    try {
+      const response = await fetch("/api/users/addCourse", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          course_name: courseName,
+          groups,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error adding course: ${response.statusText}`);
+      }
+
+      const newCourse = await response.json();
+
+      // Оновлення стану з новим курсом
+      setTeacherData((prevData) => ({
+        ...prevData,
+        courses: [...(prevData.courses || []), newCourse.course],
+      }));
+
+      setIsModalOpen(false); // Закрити модальне вікно
+    } catch (error) {
+      console.error("Error adding course:", error);
+    }
   };
 
   useEffect(() => {
     const fetchTeacherData = async () => {
-        try {
-            const accountId = currentUser?._id; // Отримуємо ID поточного користувача
-            if (!accountId) return;
+      try {
+        const accountId = currentUser?._id; // Отримуємо ID поточного користувача
+        if (!accountId) return;
 
-            const response = await fetch(`/api/users/getTeacher/${accountId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+        const response = await fetch(`/api/users/getTeacher/${accountId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-            if (!response.ok) {
-                throw new Error(`Error fetching teacher data: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            setTeacherData(data); // Зберігаємо отримані дані в стані
-        } catch (error) {
-            console.error('Error fetching teacher data:', error);
+        if (!response.ok) {
+          throw new Error(
+            `Error fetching teacher data: ${response.statusText}`
+          );
         }
+
+        const data = await response.json();
+        setTeacherData(data); // Зберігаємо отримані дані в стані
+      } catch (error) {
+        console.error("Error fetching teacher data:", error);
+      }
+    };
+
+    const fetchGroups = async () => {
+      try {
+        const response = await fetch("/api/users/getGroups");
+        if (!response.ok) {
+          throw new Error(`Error fetching groups: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setGroups(data); // Зберігаємо отримані групи в стані
+      } catch (error) {
+        console.error("Error fetching groups:", error);
+      }
     };
 
     fetchTeacherData();
-}, [currentUser?._id]);
+    fetchGroups();
+  }, [currentUser?._id]);
+
+
+
 
   return (
     <>
-      <Header 
-        textButton="Додати курс" 
-        firstAction={handleAddCourseClick} 
-      />
+      <Header textButton="Додати курс" firstAction={handleAddCourseClick} />
       <div className="main_courses_teacher">
-        <p className="welcome-text">Вітаємо, {teacherData?.name}! Перегляньте створені курси.</p>
+        <p className="welcome-text">
+          Вітаємо, {teacherData?.name}! Перегляньте створені курси.
+        </p>
 
         <div className="central_courses_teacher">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <CourseBlock key={index} />
-          ))}
+          {teacherData?.courses?.length > 0 ? (
+            teacherData.courses.map((course) => (
+              <CourseBlock key={course._id} course={course} />
+            ))
+          ) : (
+            <p>У вас ще немає створених курсів.</p>
+          )}
         </div>
       </div>
 
@@ -76,15 +133,28 @@ export const CoursesTeacherPage = () => {
               <input
                 type="text"
                 placeholder="Назва курсу"
+                name="courseName"
                 className="modal-input"
                 required
               />
-                <input
-                  type="text"
-                  placeholder="Додайте потрібні групи"
-                  className="modal-input"
+              <FormControl fullWidth className="modal-input">
+                <InputLabel id="demo-simple-select-label">Групи</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  multiple
+                  value={selectedGroups}
+                  onChange={(e) => setSelectedGroups(e.target.value)} 
+                  label="Групи"
                   required
-                />
+                >
+                  {groups.map((group) => (
+                    <MenuItem key={group._id} value={group._id}>
+                      {group.group_name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <div className="modal-buttons">
                 <button
                   type="button"

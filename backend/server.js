@@ -20,6 +20,7 @@ app.post("/api/users/register", AccountController.register);
 app.post("/api/users/logout", AccountController.logout);
 
 app.post("/api/users/addGroup", GroupController.addGroup);
+app.get("/api/users/getGroups", GroupController.getGroups);
 
 app.post("/api/users/addCourse", CourseController.addCourse);
 
