@@ -10,12 +10,18 @@ const teacherSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-    }
+    },
+    courses: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Course', // Це зв'язок з курсами
+        }
+    ]
 },
 {
     timestamps: true,
-}
-);
-const Teacher = mongoose.model('Teacher',teacherSchema);
+});
+
+const Teacher = mongoose.model('Teacher', teacherSchema);
 
 export default Teacher;
