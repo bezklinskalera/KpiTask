@@ -3,13 +3,11 @@ import { Header } from "../components/Header/Header";
 import "../styles/openTask.css";
 import { useSelector } from "react-redux";
 
-
 export const OpenTaskTeacher = () => {
   const selectedCourse = useSelector((state) => state.course.selectedCourse);
   const selectedTask = useSelector((state) => state.task.selectedTask);
   const currentUser = useSelector((state) => state.auth?.userInfo);
   const [teacherData, setTeacherData] = useState(null);
-
 
   useEffect(() => {
     const fetchTeacherData = async () => {
@@ -45,15 +43,13 @@ export const OpenTaskTeacher = () => {
       <Header />
       <div className="content">
         <div className="course-title-container">
-        <h1 className="course-title">{selectedCourse.course_name}</h1>
+          <h1 className="course-title">{selectedCourse.course_name}</h1>
         </div>
-        
+
         <div className="task-details">
           <div className="task-info">
             <h2>Завдання: {selectedTask.title}</h2>
-            <p>
-            {selectedTask.description}
-            </p>
+            <p>{selectedTask.description}</p>
             <p className="published-date">Опубліковано: 5.11.2024</p>
           </div>
           <div className="task-meta">
@@ -64,7 +60,10 @@ export const OpenTaskTeacher = () => {
               <strong>Автор:</strong> {teacherData?.name}
             </p>
             <p>
-              <strong>Статус:</strong> {selectedTask.submission_status === "not submitted" ? "Не здано" : "Здано"}
+              <strong>Статус:</strong>{" "}
+              {selectedTask.submission_status === "not submitted"
+                ? "Не здано"
+                : "Здано"}
             </p>
             <p>
               <strong>Статус оцінки:</strong> не оцінено

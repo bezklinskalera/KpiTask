@@ -124,6 +124,7 @@ export const CoursesTeacherPage = () => {
         <p className="welcome-text">
           Вітаємо, {teacherData?.name}! Перегляньте створені курси.
         </p>
+        <hr className="course-divider" />
 
         <div className="central_courses_teacher">
           {teacherData?.courses?.length > 0 ? (

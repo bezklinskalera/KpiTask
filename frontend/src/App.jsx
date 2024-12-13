@@ -26,7 +26,7 @@ function App() {
       <Route path="/coursesTeacher" element={<CoursesTeacherPage />} />
       <Route path='/coursesStudent' element={<CourseStudent/>} />
       <Route path="/oneCourseTeacher/:id" element={<OneCourseTeacher />} />
-      <Route path='/oneCourseStudent' element={<OneCourseStudent/>} />
+      <Route path='/oneCourseStudent/:id' element={<OneCourseStudent/>} />
       <Route path='/openTaskTeacher' element={<OpenTaskTeacher/>}/>
       <Route path='/openTaskStudent' element={<OpenTaskStudent/>} />
       <Route path='/addTask' element={<AddTask/>} />

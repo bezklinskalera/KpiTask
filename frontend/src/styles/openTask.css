@@ -1,20 +1,11 @@
-/* Загальні стилі */
 body {
     font-family: "Comforta";
-    margin: 0;
-    padding: 0;
-  }
-  
-  .task-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    gap: 40px;
   }
   
   .content {
     background: #ece0ff;
-    padding: 20px;
+    width: 95%;
+    margin: 20px auto;
   }
 
   .course-title-container{
@@ -33,7 +24,6 @@ body {
   .task-details {
     display: flex;
     gap: 20px;
-    background-color: #ffffff;
     border-radius:  0 0 10px 10px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -41,11 +31,16 @@ body {
   
   .task-info {
     flex: 3;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
   }
   
   .task-info h2 {
     font-size: 20px;
-    color: #5a2d8a;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 20px;
   }
   
   .task-info p {
@@ -60,7 +55,7 @@ body {
   
   .task-meta {
     flex: 1;
-    background-color: #efe3f7;
+    background-color: #ffffff;
     padding: 15px;
     border-radius: 8px;
     text-align: center;
@@ -73,6 +68,7 @@ body {
   
   .grade-button {
     background-color: #5a2d8a;
+    font-family: "Comforta";
     color: white;
     border: none;
     padding: 10px 20px;

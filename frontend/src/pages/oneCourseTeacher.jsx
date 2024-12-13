@@ -65,7 +65,7 @@ export const OneCourseTeacher = () => {
       />
      {/* Основний блок */}
      <main className="course-content">
-        <p>{selectedCourse.course_name}</p>
+        <p className="course-title-one ">{selectedCourse.course_name}</p>
         <div className="course-actions">
           <button className="action-button">Видалити курс</button>
           <button className="action-button" onClick={handleAddTaskClick} >Додати завдання</button>
@@ -76,8 +76,8 @@ export const OneCourseTeacher = () => {
         <div className="tasks-list">
         {tasks.length > 0 ? tasks.map((task) => (
             <div className="task-item" key={task._id}>
-              <span>Завдання: {task.title}</span>
-              <span>Опубліковано: {task.deadline}</span>
+              <p>Завдання: {task.title}</p>
+              <p class="published-info">Опубліковано: {task.deadline}</p>
               <button className="details-button" onClick={() => handleTaskClick(task._id)}>Детальніше</button>
             </div>
           )) : (

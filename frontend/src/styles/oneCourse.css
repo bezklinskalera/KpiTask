@@ -1,3 +1,6 @@
+.body{
+  color: white;
+}
 .course-page {
     font-family: "Comforta";
     color: #333;
@@ -23,55 +26,88 @@
   }
   
   .course-content {
-    padding: 20px;
+    width: 95%;
+    margin: 40px auto;
+    padding-bottom: 20px;
+    background-color: #ece0ff;
+    border-radius: 5px;
   }
   
-  .course-title {
+  .course-title-one{
     text-align: center;
-    color: #4b0082;
-    font-family: "Comforta";
-  }
+    color: white;
+    background-color: #6b4e9a;
+    border-radius: 10px 10px 0 0;
+    font-size: 35px;
+    padding-top: 70px;
+    padding-bottom: 20px;
+}
   
   .course-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 20px 0;
+    margin-left: 20px;
+    margin-right: 20px;
     
   }
   
   .action-button {
-    background-color: #8a2be2;
-    color: white;
-    padding: 10px 20px;
+    background-color: #ffffff;
+    color: #6b4e9a;
+    padding: 20px 20px;
     border: none;
     cursor: pointer;
+    border-radius: 10px;
+    font-family: "Comforta";
     
   }
   
   .course-code {
     font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 10px;
     font-weight: bold;
-    color: #4b0082;
+    background-color: #ffffff;
+    color: #6b4e9a;
   }
   
   .tasks-list {
-    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    flex-direction: column;
+    gap:30px;
+    margin-left: 20px;
+    margin-right: 20px;
     
   }
+  
   
   .task-item {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 20px;
     border-bottom: 1px solid #ccc;
+    background-color: white;
+    border-radius: 5px;
+    
   }
+
+  .published-info {
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: right;
+}
   
   .details-button {
-    background-color: #6a5acd;
+    background-color: #6b4e9a;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 10px 10px;
+    font-family: "Comforta";
+    border-radius: 5px;
   }
   
   .student-list {

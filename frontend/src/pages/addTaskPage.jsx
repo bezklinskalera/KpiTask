@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Header } from "../components/Header/Header";
 import { useNavigate } from "react-router-dom";
-import '../styles/addTask.css'
+import "../styles/addTask.css";
 import { useSelector } from "react-redux";
 
 export const AddTask = () => {
@@ -11,7 +11,7 @@ export const AddTask = () => {
   const handleAllCourseClick = () => {
     navigate("/coursesTeacher");
   };
-  
+
   const handleEnter = () => {
     navigate("/enter");
   };
@@ -33,9 +33,9 @@ export const AddTask = () => {
     try {
       // Відправка запиту на сервер для додавання завдання
       const response = await fetch(`/api/users/addTask/${selectedCourse._id}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(taskData), // Перетворюємо дані завдання в формат JSON
       });
