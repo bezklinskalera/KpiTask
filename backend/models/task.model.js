@@ -5,7 +5,7 @@ const taskSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    descrition: {
+    description: {
         type: String,
         required: true,
     },
@@ -13,19 +13,21 @@ const taskSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    group: {
+    student_answer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'StudentAnswer', 
-        required: true 
+        default: null,
     },
     submission_status: {
         type: String,
         required: true, 
         enum: ['submitted', 'not submitted'],
+        default: 'not submitted',
     },
     assessment_status: {
         type: String,
-        required: true, 
+        required: true,
+        default: 'not assessed',
     }
 },
 {

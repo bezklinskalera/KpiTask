@@ -20,11 +20,37 @@ export const AddTask = () => {
   const [taskDescription, setTaskDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Обробка даних форми
-    console.log("Новий завдання:", { taskTitle, taskDescription, dueDate });
-    navigate("`/oneCourseTeacher/${course._id}`"); // Повернення до курсів
+
+    // Підготовка даних для запиту
+    const taskData = {
+      title: taskTitle,
+      description: taskDescription,
+      deadline: dueDate,
+    };
+
+    try {
+      // Відправка запиту на сервер для додавання завдання
+      const response = await fetch(`/api/users/addTask/${selectedCourse._id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(taskData), // Перетворюємо дані завдання в формат JSON
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Завдання успішно додано:", result);
+        navigate(`/oneCourseTeacher/${selectedCourse._id}`); // Повернення на сторінку курсу після успішного додавання
+      } else {
+        const error = await response.json();
+        console.error("Помилка при додаванні завдання:", error.message);
+      }
+    } catch (error) {
+      console.error("Помилка при запиті:", error);
+    }
   };
 
   return (
