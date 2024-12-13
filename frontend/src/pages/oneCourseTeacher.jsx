@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 import '../styles/oneCourse.css'
 import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { setSelectedTask } from '../slices/taskSlice';
 
 
 export const OneCourseTeacher = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const selectedCourse = useSelector((state) => state.course.selectedCourse);
+  const [tasks, setTasks] = useState([]); // Стан для завдань
+  const [students, setStudents] = useState([]); // Стан для студентів
+
+  useEffect(() => {
+    if (selectedCourse) {
+      // Запит для отримання завдань
+      fetch(`/api/users/getTasks/${selectedCourse._id}`)
+        .then((response) => response.json())
+        .then((data) => setTasks(data.tasks))
+        .catch((error) => console.error("Error fetching tasks:", error));
+
+      // Запит для отримання студентів
+      /*fetch(`/api/courses/${selectedCourse._id}/students`)
+        .then((response) => response.json())
+        .then((data) => setStudents(data.students))
+        .catch((error) => console.error("Error fetching students:", error));*/
+    }
+  }, [selectedCourse]);
+
  
   if (!selectedCourse) {
     return <p>Курс не знайдено</p>;
@@ -21,8 +43,12 @@ export const OneCourseTeacher = () => {
     navigate("/enter");
   };
 
-  const handleTaskClick = () => {
-    navigate("/openTaskTeacher");
+  const handleTaskClick = (taskId) => {
+    const task = tasks.find((task) => task._id === taskId);
+    if (task) {
+      dispatch(setSelectedTask(task)); // Викликаємо екшн для збереження завдання в Redux
+      navigate("/openTaskTeacher"); // Перехід на сторінку з відкриттям завдання
+    }
   };
 
   const handleAddTaskClick = () => {
@@ -48,17 +74,18 @@ export const OneCourseTeacher = () => {
 
         {/* Список завдань */}
         <div className="tasks-list">
-          {["5.11.2024", "5.11.2024", "5.11.2024"].map((date, index) => (
-            <div className="task-item" key={index}>
-              <span>Завдання: Збір вимог до проєкту</span>
-              <span>Опубліковано: {date}</span>
-              <button className="details-button" onClick={handleTaskClick} >Детальніше </button>
+        {tasks.length > 0 ? tasks.map((task) => (
+            <div className="task-item" key={task._id}>
+              <span>Завдання: {task.title}</span>
+              <span>Опубліковано: {task.deadline}</span>
+              <button className="details-button" onClick={() => handleTaskClick(task._id)}>Детальніше</button>
             </div>
-          ))}
+          )) : (
+            <p>Завдання не знайдено</p>
+          )}
         </div>
 
-        {/* Список студентів */}
-        <aside className="student-list">
+        {/* Список студентів <aside className="student-list">
           <h2>Список студентів:</h2>
           {Array(5)
             .fill("Безклинська Валерія")
@@ -68,7 +95,8 @@ export const OneCourseTeacher = () => {
               </div>
             ))}
           <button className="scroll-button">Переглянути</button>
-        </aside>
+        </aside>*/}
+        
       </main>
   </div>);
 };

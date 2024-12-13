@@ -18,7 +18,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
             }),
           }),
           getTeacherById: builder.query({
-            query: (id) => `/api/teachers/${id}`, // Припускаю, що ваш бекенд має цей маршрут
+            query: (id) => `/api/teachers/${id}`, 
         }),
     }),
 });

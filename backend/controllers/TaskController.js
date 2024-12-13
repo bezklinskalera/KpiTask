@@ -43,3 +43,32 @@ export const addTask = async (req, res) => {
         });
     }
 };
+
+
+export const getTasksByCourse = async (req, res) => {
+    try {
+        const courseId = req.params.courseId; // Отримуємо courseId з параметрів URL
+
+        // Знаходимо курс за ID
+        const course = await Course.findById(courseId).populate('tasks'); // Використовуємо populate, щоб автоматично заповнити завдання
+
+        if (!course) {
+            return res.status(404).json({
+                message: 'Course not found',
+            });
+        }
+
+        // Повертаємо список завдань цього курсу
+        res.status(200).json({
+            message: 'Tasks retrieved successfully',
+            tasks: course.tasks,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            message: 'Failed to retrieve tasks for the course',
+        });
+    }
+};
+
+

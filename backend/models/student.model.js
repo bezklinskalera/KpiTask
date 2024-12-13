@@ -15,7 +15,13 @@ const studentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Group', 
         required: true 
-    }
+    },
+    courses: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Course', 
+        }
+    ]
 },
 {
     timestamps: true,
