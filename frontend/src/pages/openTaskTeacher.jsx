@@ -60,15 +60,13 @@ export const OpenTaskTeacher = () => {
               <strong>Автор:</strong> {teacherData?.name}
             </p>
             <p>
-              <strong>Статус:</strong>{" "}
-              {selectedTask.submission_status === "not submitted"
-                ? "Не здано"
-                : "Здано"}
+              <strong>Кількість зданих робіт:</strong>{" "}
+              {selectedTask.student_answer.length}
             </p>
             <p>
-              <strong>Статус оцінки:</strong> не оцінено
+              <strong>Максимальний бал:</strong> {selectedTask.max_grade}
             </p>
-            <button className="grade-button">Оцінити</button>
+            {/*<button className="grade-button">Оцінити</button>*/}
           </div>
         </div>
       </div>

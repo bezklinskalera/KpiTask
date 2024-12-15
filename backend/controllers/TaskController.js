@@ -4,7 +4,7 @@ import Course from '../../backend/models/course.model.js';
 
 export const addTask = async (req, res) => {
     try {
-        const { title, description, deadline } = req.body; // Отримуємо title, description та deadline з тіла запиту
+        const { title, description, deadline, max_grade } = req.body; // Отримуємо title, description та deadline з тіла запиту
         const courseId = req.params.courseId; // Отримуємо courseId з параметрів URL
 
         // Створення нового завдання
@@ -12,8 +12,9 @@ export const addTask = async (req, res) => {
             title,
             description,
             deadline,
-            submission_status: 'not submitted',
-            assessment_status: 'not assessed',
+            submission_status: [],
+            max_grade,
+            student_answers: []
         });
 
         // Збереження завдання в базі

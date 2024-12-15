@@ -19,6 +19,7 @@ export const AddTask = () => {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [taskGrade, setTaskGrade] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +29,7 @@ export const AddTask = () => {
       title: taskTitle,
       description: taskDescription,
       deadline: dueDate,
+      max_grade: taskGrade,
     };
 
     try {
@@ -78,6 +80,14 @@ export const AddTask = () => {
             value={taskDescription}
             onChange={(e) => setTaskDescription(e.target.value)}
             className="task-textarea"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Введіть максимальну оцінку"
+            value={taskGrade}
+            onChange={(e) => setTaskGrade(e.target.value)}
+            className="task-input"
             required
           />
           <input

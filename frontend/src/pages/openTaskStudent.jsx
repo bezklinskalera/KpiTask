@@ -3,73 +3,112 @@ import { Header } from "../components/Header/Header";
 import "../styles/openTask.css";
 import { useSelector } from "react-redux";
 
-
 export const OpenTaskStudent = () => {
   const selectedCourse = useSelector((state) => state.course.selectedCourse);
   const selectedTask = useSelector((state) => state.task.selectedTask);
   const currentUser = useSelector((state) => state.auth?.userInfo);
-  const [teacherData, setTeacherData] = useState(null);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [taskStatus, setTaskStatus] = useState(null); // Зберігаємо стан статусу відповіді
 
+  // Перевіряємо статус відповіді з бази даних при завантаженні компонента
   useEffect(() => {
-    const fetchTeacherData = async () => {
+    const checkAnswerStatus = async () => {
       try {
-        const accountId = currentUser?._id; // Отримуємо ID поточного користувача
-        if (!accountId) return;
+        const taskId = selectedTask._id;
+        const idAccount = currentUser?._id;
 
-        const response = await fetch(`/api/users/getTeacher/${accountId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        if (!taskId || !idAccount) return;
+
+        const response = await fetch(
+          `/api/users/checkAnswer?taskId=${taskId}&idAccount=${idAccount}`
+        );
 
         if (!response.ok) {
-          throw new Error(
-            `Error fetching teacher data: ${response.statusText}`
-          );
+          throw new Error(`Error: ${response.statusText}`);
         }
 
         const data = await response.json();
-        setTeacherData(data); // Зберігаємо отримані дані в стані
+        setTaskStatus(data.status); // Зберігаємо статус з БД ("done" або "not_done")
       } catch (error) {
-        console.error("Error fetching teacher data:", error);
+        console.error("Error checking answer status:", error);
       }
     };
 
-    fetchTeacherData();
-  }, [currentUser?._id]);
+    checkAnswerStatus();
+  }, [selectedTask, currentUser]);
+
+  // Відмічаємо завдання як виконане
+  const handleMarkAsDone = async () => {
+    setIsSubmitting(true);
+
+    try {
+      const taskId = selectedTask._id;
+      const idAccount = currentUser?._id;
+
+      if (!taskId || !idAccount) return;
+
+      const response = await fetch("/api/users/addAnswer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ taskId, idAccount }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      // Оновити статус після успішного виконання запиту
+      setTaskStatus("done");
+      setIsSubmitting(false);
+    } catch (error) {
+      console.error("Error submitting answer:", error);
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="task-container">
       <Header />
       <div className="content">
         <div className="course-title-container">
-        <h1 className="course-title">{selectedCourse.course_name}</h1>
+          <h1 className="course-title">{selectedCourse.course_name}</h1>
         </div>
-        
+
         <div className="task-details">
           <div className="task-info">
             <h2>Завдання: {selectedTask.title}</h2>
-            <p>
-            {selectedTask.description}
-            </p>
+            <p>{selectedTask.description}</p>
             <p className="published-date">Опубліковано: 5.11.2024</p>
           </div>
           <div className="task-meta">
             <p>
               <strong>Дедлайн:</strong> {selectedTask.deadline}
             </p>
+
             <p>
-              <strong>Автор:</strong> {teacherData?.name}
+              <strong>Статус:</strong>{" "}
+              {taskStatus === "done" ? "Вже виконано" : "Не виконано"}
             </p>
             <p>
-              <strong>Статус:</strong> {selectedTask.submission_status === "not submitted" ? "Не здано" : "Здано"}
+              <strong>Максимальний бал:</strong> {selectedTask.max_grade}
             </p>
-            <p>
-              <strong>Статус оцінки:</strong> не оцінено
-            </p>
-            <button className="grade-button">Надіслати</button>
+            <button
+              className="grade-button"
+              onClick={handleMarkAsDone}
+              disabled={isSubmitting || taskStatus === "done"} // Заборона, якщо статус "done"
+            >
+              {taskStatus === "done"
+                ? "Вже надіслано" // Текст кнопки при статусі "done"
+                : isSubmitting
+                ? "Надіслано"
+                : "Позначити як виконане"}
+            </button>
           </div>
         </div>
       </div>

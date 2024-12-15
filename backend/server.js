@@ -8,7 +8,8 @@ import {
   CourseController,
   TeacherController,
   TaskController,
-  StudentController, 
+  StudentController,
+  StudentAnswerController, 
 } from "./controllers/index.js";
 
 dotenv.config();
@@ -35,6 +36,11 @@ app.get("/api/users/getStudent/:id", StudentController.getStudentByAccountId)
 
 app.post("/api/users/addTask/:courseId", TaskController.addTask);
 app.get("/api/users/getTasks/:courseId", TaskController.getTasksByCourse )
+
+app.post("/api/users/addAnswer", StudentAnswerController.addAnswer);
+app.get("/api/users/checkAnswer", StudentAnswerController.getStudentAnswer);
+
+
 
 app.get("/", (req, res) => {
   res.send("Server is ready");
