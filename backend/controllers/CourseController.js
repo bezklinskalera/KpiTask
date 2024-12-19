@@ -78,3 +78,37 @@ export const getCoursesByAccountIdAndName = async (req, res) => {
   }
 };
 
+export const deleteCourse = async (req, res) => {
+  try {
+    const { courseId } = req.params;
+
+    // Знайдемо курс за ID
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
+    }
+
+    // Видаляємо курс із списків викладачів
+    const teachers = await Teacher.find({ courses: courseId });
+    for (let teacher of teachers) {
+      teacher.courses = teacher.courses.filter(course => course.toString() !== courseId);
+      await teacher.save();
+    }
+
+    // Видаляємо курс із списків студентів
+    const students = await Student.find({ courses: courseId });
+    for (let student of students) {
+      student.courses = student.courses.filter(course => course.toString() !== courseId);
+      await student.save();
+    }
+
+    // Видалення самого курсу
+    await Course.findByIdAndDelete(courseId);
+
+    res.status(200).json({ message: "Course deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to delete course" });
+  }
+};
+

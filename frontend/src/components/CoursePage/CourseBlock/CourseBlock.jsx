@@ -19,8 +19,7 @@ export const CourseBlock = ({ course }) => {
         <p>{course?.course_name}</p>
       </div>
       <div className="course-block-footer">
-        <button className="icon-button edit-button">✏️</button>
-        <button className="icon-button delete-button">🗑️</button>
+       
         <span
           className="details-text"
           onClick={handleDetailsClick} // Додаємо обробник натискання

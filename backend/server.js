@@ -27,6 +27,7 @@ app.get("/api/users/getGroups", GroupController.getGroups);
 
 app.post("/api/users/addCourse", CourseController.addCourse);
 app.get("/api/users/courses/:accountId/:courseName", CourseController.getCoursesByAccountIdAndName);
+app.delete('/api/users/deleteCourse/:courseId', CourseController.deleteCourse);
 
 app.post("/api/users/addTeacher", TeacherController.addTeacher);
 app.get("/api/users/getTeacher/:id", TeacherController.getTeacherById)

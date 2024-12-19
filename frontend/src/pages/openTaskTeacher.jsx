@@ -50,7 +50,7 @@ export const OpenTaskTeacher = () => {
           <div className="task-info">
             <h2>Завдання: {selectedTask.title}</h2>
             <p>{selectedTask.description}</p>
-            <p className="published-date">Опубліковано: 5.11.2024</p>
+            <p className="published-date">Опубліковано: {new Date(selectedTask.createdAt).toLocaleDateString("uk-UA")}</p>
           </div>
           <div className="task-meta">
             <p>
