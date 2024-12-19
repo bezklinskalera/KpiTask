@@ -49,39 +49,37 @@ export const addAnswer = async (req, res) => {
 
 export const getStudentAnswer = async (req, res) => {
     try {
-        const { taskId, idAccount } = req.body; // Отримання ID завдання та акаунта з тіла запиту
-
-        // Перевірка існування завдання
-        const task = await Task.findById(taskId).populate('student_answer');
-        if (!task) {
-            return res.status(404).json({ message: 'Завдання не знайдено' });
-        }
-
-        // Пошук відповіді студента серед student_answer
-        const studentAnswer = await StudentAnswer.findOne({
-            _id: { $in: task.student_answer },
-            student: idAccount,
+      const { taskId, idAccount } = req.query; // Отримання ID завдання та акаунта з параметрів запиту
+  
+      const task = await Task.findById(taskId).populate("student_answer");
+      if (!task) {
+        return res.status(404).json({ message: "Завдання не знайдено" });
+      }
+  
+      const studentAnswer = await StudentAnswer.findOne({
+        _id: { $in: task.student_answer },
+        student: idAccount,
+      });
+  
+      if (studentAnswer) {
+        return res.status(200).json({
+          message: "Відповідь знайдена",
+          data: studentAnswer,
         });
-
-        if (studentAnswer) {
-            return res.status(200).json({
-                message: 'Відповідь знайдена',
-                data: studentAnswer,
-            });
-        } else {
-            return res.status(200).json({
-                message: 'Відповідь не знайдена',
-                status: 'not_done',
-            });
-        }
+      } else {
+        return res.status(200).json({
+          message: "Відповідь не знайдена",
+          status: "not_done",
+        });
+      }
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            message: 'Не вдалося знайти відповідь студента',
-            error: err.message,
-        });
+      console.error(err);
+      res.status(500).json({
+        message: "Не вдалося знайти відповідь студента",
+        error: err.message,
+      });
     }
-};
+  };
 
 
 

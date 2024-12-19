@@ -5,12 +5,18 @@ import '../styles/oneCourse.css'
 import { useSelector } from "react-redux";
 import { useDispatch } from 'react-redux';
 import { setSelectedTask } from '../slices/taskSlice';
+import { clearSelectedAnswer } from '../slices/answerSlice';
 
 export const OneCourseStudent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [tasks, setTasks] = useState([]); // Стан для завдань
   const selectedCourse = useSelector((state) => state.course.selectedCourse);
+
+  useEffect(() => {
+    console.log("Clear");
+    dispatch(clearSelectedAnswer()); // Очищаємо стан відповіді при завантаженні сторінки
+  }, [dispatch]);
 
   useEffect(() => {
     if (selectedCourse) {
@@ -30,7 +36,7 @@ export const OneCourseStudent = () => {
 
 
   const handleAllCourseClick = () => {
-    navigate("/coursesTeacher");
+    navigate("/coursesStudent");
   };
 
   const handleEnter = () => {
